@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const getMostVoted = (points) => {
+  const maxValue = Math.max(...points)
+  console.log(maxValue)
+  return points.indexOf(maxValue)
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [mostVoted, setMostvoted] = useState(0)
   const [points, setPoints] = useState([0, 0, 0, 0, 0, 0])
 
   const handleNextClick = () => {
@@ -14,6 +21,7 @@ const App = (props) => {
     const newPoints = [...points]
     newPoints[selected]++
     setPoints(newPoints)
+    setMostvoted(getMostVoted(newPoints))
   }
 
   return (
@@ -22,7 +30,11 @@ const App = (props) => {
       {props.anecdotes[selected]} <br />
       Has {points[selected]} votes. <br />
       <button onClick={handleVoteClick}>Vote</button>&nbsp;
-      <button onClick={handleNextClick}>Next anecdote</button>
+      <button onClick={handleNextClick}>Next anecdote</button><br />
+
+      <h1>Anecdote with most votes</h1>
+      {props.anecdotes[mostVoted]} <br />
+      Has {points[mostVoted]} votes. <br />
     </div>
   )
 }
